@@ -44,9 +44,9 @@ class BarangKeluarFactory extends Factory
         return $this->afterCreating(function ($barangKeluar) {
             // Kurangi jumlah laptop di BarangMasuk
             $barangMasuk = $barangKeluar->barangMasuk;
-            if ($barangMasuk) {
-                $barangMasuk->decrement('jlh_laptop', $barangKeluar->jlh_laptop);
-            }
+            // if ($barangMasuk) {
+            //     $barangMasuk->decrement('jlh_laptop', $barangKeluar->jlh_laptop);
+            // }
 
             // Update total_laptop di tabel Laptop
             $laptop = Laptop::where('masuk_id', $barangMasuk->id)->first();
