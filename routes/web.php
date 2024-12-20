@@ -15,8 +15,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     // laptop
     Route::get('/data-laptop', [LaptopController::class, 'index'])->name('data-laptop.index');
-    Route::get('/data-laptop/report', [LaptopController::class, 'report'])->name('data-laptop.report');
-    Route::get('data-laptop/export/', [LaptopController::class, 'export'])->name('data-laptop.export');
+    Route::get('/data-laptop/export', [LaptopController::class, 'export'])->name('data-laptop.export');
+    Route::get('/data-laptop/cari', [LaptopController::class, 'search'])->name('data-laptop.cari');
     // 
     // Route::post('/data-laptop/store', [LaptopController::class, 'store'])->name('laptop.store');
     // Route::get('/data-laptop/edit/{id}', [LaptopController::class, 'show'])->name('laptop.edit');

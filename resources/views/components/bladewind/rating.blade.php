@@ -1,5 +1,5 @@
 @props([
-    'name' => 'rating',
+    'name' => defaultBladewindName(),
     'rating' => 0,
     'size' => config('bladewind.rating.size', 'small'),
     'color' => 'orange',
@@ -13,9 +13,9 @@
     ],
 ])
 @php
-    $name = str_replace(' ', '-', $name); 
+    $name = str_replace(' ', '-', $name);
     $size_adjustment = ($size == 'big') ? 2 : 1;
-    $clickable = filter_var($clickable, FILTER_VALIDATE_BOOLEAN);
+    $clickable = parseBladewindVariable($clickable);
 @endphp
 @if($clickable)
     <x-bladewind::input type="hidden" class="rating-value-{{$name}}" selected_value="{{$rating}}"/>
@@ -61,8 +61,8 @@
 <script>
     flipStars = function (name, rating, current, mode) {
         for (y = rating; y <= current; y++) {
-            if (dom_el(`.bw-rating-${y}.${name}`)) {
-                if (!dom_el(`.bw-rating-${y}.${name}`).classList.contains('rated')) {
+            if (domEl(`.bw-rating-${y}.${name}`)) {
+                if (!domEl(`.bw-rating-${y}.${name}`).classList.contains('rated')) {
                     if (mode == 'on') {
                         hide(`.bw-rating-${y}.${name} .empty`);
                         unhide(`.bw-rating-${y}.${name} .filled`);
@@ -88,6 +88,6 @@
             hide(`.bw-rating-${x}.${name} .empty`);
             changeCss(`.bw-rating-${x}.${name}`, 'rated');
         }
-        dom_el('.rating-value-{{$name}}').value = rate;
+        domEl('.rating-value-{{$name}}').value = rate;
     }
 </script>

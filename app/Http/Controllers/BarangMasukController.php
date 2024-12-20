@@ -20,6 +20,7 @@ class BarangMasukController extends Controller
         $laptops = BarangMasuk::query()
             ->where('kode_barang', 'LIKE', "%{$search}%")
             ->orWhere('kategory', 'LIKE', "%{$search}%")
+            ->orWhere('nama_laptop', 'LIKE', "%{$search}%")
             ->paginate(5);
         $title = 'Hapus data';
         $text = "Apakah anda yakin ingin menghapus data barang masuk?";
@@ -36,8 +37,9 @@ class BarangMasukController extends Controller
         }
         $barangMasuk = BarangMasuk::find($id);
         $kategori = [
+            ['label' => 'Peminjaman', 'value' => 'Peminjaman'], 
             ['label' => 'Pembelian', 'value' => 'Pembelian'], 
-            ['label' => 'Peminjaman', 'value' => 'Peminjaman'],
+            ['label' => 'Pengembalian', 'value' => 'Pengembalian'],
             ['label' => 'Hadiah', 'value' => 'Hadiah'], 
             ['label' => 'Donasi', 'value' => 'Donasi']
         ];
@@ -56,7 +58,7 @@ class BarangMasukController extends Controller
             'jlh_laptop' => 'required',
             'sumber_laptop' => 'required',
             'tanggal_masuk' => 'required',
-            'kategory' => 'required|in:Pembelian,Peminjaman,Hadiah,Donasi',
+            'kategory' => 'required|in:Pembelian,Peminjaman,Hadiah,Donasi,Pengembalian',
             'file' => 'required|mimes:jpg,jpeg,png|max:512',
         ]);
         try {

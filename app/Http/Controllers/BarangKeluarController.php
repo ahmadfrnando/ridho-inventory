@@ -14,7 +14,6 @@ class BarangKeluarController extends Controller
 {
     public function index(Request $request)
     {
-
         $search = $request->get('search');
         $barangKeluar = BarangKeluar::with('barangMasuk')
             ->whereHas('barangMasuk', function ($query) use ($search) {
@@ -48,9 +47,7 @@ class BarangKeluarController extends Controller
     public function create(Request $request)
     {
         $query = $request->input('search');
-        // Cek apakah ada pencarian
         if ($query) {
-            // Lakukan pencarian berdasarkan nama laptop
             $laptops = BarangMasuk::where('kode_barang', 'LIKE', '%' . $query . '%');
         } else {
             // Jika tidak ada pencarian, tampilkan semua data

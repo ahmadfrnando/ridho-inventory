@@ -69,18 +69,35 @@
 
     // display button text as uppercase or as user entered
     'uppercasing' => config('bladewind.button.uppercasing', true),
+])
+@php
+    $show_spinner = parseBladewindVariable($show_spinner);
+    $showSpinner = parseBladewindVariable($showSpinner);
+    $has_spinner = parseBladewindVariable($has_spinner);
+    $hasSpinner = parseBladewindVariable($hasSpinner);
+    $can_submit = parseBladewindVariable($can_submit);
+    $canSubmit = parseBladewindVariable($canSubmit);
+    $outline = parseBladewindVariable($outline);
+    $uppercasing = parseBladewindVariable($uppercasing);
+    $circular = parseBladewindVariable($circular);
+    $show_focus_ring = parseBladewindVariable($show_focus_ring);
+    $showFocusRing = parseBladewindVariable($showFocusRing);
 
-    // css fpr various radii
-    'roundness'     => [
+    if($showSpinner) $show_spinner = $showSpinner;
+    if($hasSpinner) $has_spinner = $hasSpinner;
+    if($canSubmit) $can_submit = $canSubmit;
+    if(!$showFocusRing) $show_focus_ring = $showFocusRing;
+
+    $roundness  = [
         'none'      => 'rounded-none',
         'small'     => 'rounded-md',
         'medium'    => 'rounded-xl',
         'full'      => 'rounded-full',
-    ],
+    ];
 
-    'icon_size' => [
+    $icon_size = [
         'circular' => [
-            'tiny' => '!size-[18px]',
+            'tiny' => '!size-[16px]',
             'small' => '!size-[22px]',
             'regular' => '!size-6',
             'medium' => '!size-7',
@@ -91,26 +108,7 @@
         'regular' => '!size-4',
         'medium' => '!size-[20px]',
         'big' => '!size-[25px]',
-    ],
-])
-
-@php
-    $show_spinner = filter_var($show_spinner, FILTER_VALIDATE_BOOLEAN);
-    $showSpinner = filter_var($showSpinner, FILTER_VALIDATE_BOOLEAN);
-    $has_spinner = filter_var($has_spinner, FILTER_VALIDATE_BOOLEAN);
-    $hasSpinner = filter_var($hasSpinner, FILTER_VALIDATE_BOOLEAN);
-    $can_submit = filter_var($can_submit, FILTER_VALIDATE_BOOLEAN);
-    $canSubmit = filter_var($canSubmit, FILTER_VALIDATE_BOOLEAN);
-    $outline = filter_var($outline, FILTER_VALIDATE_BOOLEAN);
-    $uppercasing = filter_var($uppercasing, FILTER_VALIDATE_BOOLEAN);
-    $circular = filter_var($circular, FILTER_VALIDATE_BOOLEAN);
-    $show_focus_ring = filter_var($show_focus_ring, FILTER_VALIDATE_BOOLEAN);
-    $showFocusRing = filter_var($showFocusRing, FILTER_VALIDATE_BOOLEAN);
-
-    if($showSpinner) $show_spinner = $showSpinner;
-    if($hasSpinner) $has_spinner = $hasSpinner;
-    if($canSubmit) $can_submit = $canSubmit;
-    if(!$showFocusRing) $show_focus_ring = $showFocusRing;
+    ];
 
     $colour = (!empty($color)) ? $color : $type;
     $outline_colour =   "border-$colour-500/50 focus:ring-$colour-500 hover:border-$colour-600
@@ -146,7 +144,9 @@
     @if(!empty($icon) && !$icon_right)
         <x-bladewind::icon :name="$icon" class="stroke-2 {{$icon_css}}" />
     @endif
-    <span class="grow {{ $button_text_css }}">{{ $slot }}</span>
+    @if (!$circular)
+        <span class="grow {{ $button_text_css }}">{{ $slot }}</span>
+    @endif
     @if(!empty($icon) && $icon_right && !$has_spinner)
         <x-bladewind::icon :name="$icon" class="stroke-2 {{$icon_css}}" />
     @endif

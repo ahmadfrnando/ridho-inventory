@@ -28,11 +28,11 @@
 ])
 @php
     // reset variables for Laravel 8 support
-    $add_clearing = filter_var($add_clearing, FILTER_VALIDATE_BOOLEAN);
-    $addClearing = filter_var($addClearing, FILTER_VALIDATE_BOOLEAN);
-    $show_error_inline = filter_var($show_error_inline, FILTER_VALIDATE_BOOLEAN);
-    $showErrorInline = filter_var($showErrorInline, FILTER_VALIDATE_BOOLEAN);
-    $required = filter_var($required, FILTER_VALIDATE_BOOLEAN);
+    $add_clearing = parseBladewindVariable($add_clearing);
+    $addClearing = parseBladewindVariable($addClearing);
+    $show_error_inline = parseBladewindVariable($show_error_inline);
+    $showErrorInline = parseBladewindVariable($showErrorInline);
+    $required = parseBladewindVariable($required);
 
     if (!$addClearing) $add_clearing = $addClearing;
     if($showErrorInline) $show_error_inline = $showErrorInline;
@@ -67,7 +67,7 @@
     @endif
     @if($label !== '')
         <label for="{{ $name }}" class="form-label dark:peer-focus:pt-1"
-               onclick="dom_el('.{{$name}}').focus()">{{ $label }}
+               onclick="domEl('.{{$name}}').focus()">{{ $label }}
             @if($required == 'true')
                 <x-bladewind::icon name="star" class="!text-red-400 !w-2 !h-2 mt-[-2px]" type="solid"/>
             @endif
@@ -118,7 +118,7 @@
             quillOptions.modules.toolbar = modifyToolbarOptions(toolbarOptions, '{{$except}}');
             var quill_{{$name}} = new Quill('#{{$name}}', quillOptions);
             // Update the hidden input field whenever the textarea content changes
-            quill_{{ $name }}.on('text-change', function(delta, oldDelta, source) {
+            quill_{{ $name }}.on('text-change', function (delta, oldDelta, source) {
                 var value = quill_{{ $name }}.root.innerHTML;
                 document.getElementById('{{ $name }}-hidden').value = value;
             });

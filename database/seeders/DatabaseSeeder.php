@@ -21,11 +21,16 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        User::factory()->create([
-            'name' => 'admin',
-            'username' => 'admin',
-            'password' => Hash::make('admin'),
-            'role' => 'admin'
+        $this->call([
+            // BarangMasukSeeder::class,
+            BarangKeluarSeeder::class,
         ]);
+
+        // User::factory()->create([
+        //     'name' => 'admin',
+        //     'username' => 'admin',
+        //     'password' => Hash::make('admin'),
+        //     'role' => 'admin'
+        // ]);
     }
 }

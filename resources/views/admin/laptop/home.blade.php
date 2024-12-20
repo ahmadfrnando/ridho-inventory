@@ -8,13 +8,12 @@
         <x-bladewind::button size="regular" icon="plus" class="w-auto mb-2" icon="printer">Export</x-bladewind::button>
     </a>
     <div class="overflow-hidden rounded-lg shadow-lg bg-white">
-        <form action="{{ route('data-laptop.export') }}" method="GET" class="flex w-auto gap-2 justify-end py-4 pr-2">
+        <form action="{{ route('data-laptop.index') }}" method="GET" class="flex w-auto gap-2 justify-end py-4 pr-2">
             <div class="flex gap-2">
                 <div><x-bladewind.input placeholder="Cari Barang..." name="search" size="small"/></div>
                 <div><x-bladewind.button can_submit="true" icon="magnifying-glass" class="flex">Cari</x-bladewind.button>
                 </div>
-                <a href="{{ route('data-laptop.index') }}"><x-bladewind.button icon="arrow-path" color="red"
-                        class="flex">Reset</x-bladewind.button></a>
+                <a href="{{ route('data-laptop.index') }}"><x-bladewind.button icon="arrow-path" color="red" class="flex">Reset</x-bladewind.button></a>
             </div>
         </form>
         <x-bladewind::table compact="true" divider="thin">

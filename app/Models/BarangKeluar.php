@@ -11,6 +11,11 @@ class BarangKeluar extends Model
 
     protected $guarded = [];
 
+    // public function barangMasuk()
+    // {
+    //     return $this->belongsTo(BarangMasuk::class, 'masuk_id', 'id');
+    // }
+
     public function barangMasuk()
     {
         return $this->belongsTo(BarangMasuk::class, 'masuk_id', 'id');
