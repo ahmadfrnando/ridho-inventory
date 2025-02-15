@@ -81,19 +81,28 @@ class BarangKeluarController extends Controller
         try {
             $request->validate([
                 'kode_barang' => 'required',
-                'jlh_laptop' => 'required',
+                'jlh_laptop' => 'required|numeric',
                 'bidang' => 'required',
                 'file' => 'required|mimes:jpg,jpeg,png|max:512',
                 'tanggal_pengeluaran' => 'required',
                 'info' => 'required',
             ]);
 
-            $masukId = $request->kode_barang;
+            $laptop = Laptop::where('masuk_id', $request->kode_barang)->first();
+            $sisaLaptop = $laptop->total_laptop;
+            if ($laptop) {
+                if ($request->jlh_laptop > $sisaLaptop) {
+                    return redirect()->route('barang-keluar.create')->with('error', 'Jumlah barang keluar yang dimasukkan melebihi stok laptop yang tersedia. Silakan periksa kembali jumlah laptop yang ingin dikeluarkan.');
+                }
+            } else {
+                return redirect()->route('barang-keluar.create')->with('error', 'Laptop tidak ditemukan');
+            }
+
             $file = $request->file('file');
             $fileName = time() . '_' . $file->getClientOriginalName();
             Storage::disk('public')->put('uploads/barang-keluar/' . $fileName, $file->getContent());
-            $barangkeluar = BarangKeluar::create([
-                'masuk_id' => $masukId,
+            BarangKeluar::create([
+                'masuk_id' => $request->kode_barang,
                 'jlh_laptop' => $request->jlh_laptop,
                 'bidang' => $request->bidang,
                 'file' => $fileName,
@@ -102,8 +111,7 @@ class BarangKeluarController extends Controller
             ]);
             // dd($masukId);
 
-            $laptop = Laptop::where('masuk_id', $masukId)->first();
-            $total_laptop = $laptop->total_laptop - $request->jlh_laptop;
+            $total_laptop = $sisaLaptop - $request->jlh_laptop;
             $laptop->update([
                 'total_laptop' => $total_laptop
             ]);
@@ -120,7 +128,7 @@ class BarangKeluarController extends Controller
 
             return redirect()->route('barang-keluar.index')->with('success', 'Data barang keluar berhasil ditambahkan');
         } catch (\Throwable $th) {
-            return redirect()->route('barang-keluar.index')->with('error', 'Data barang keluar gagal ditambahkan' . $th->getMessage());
+            return redirect()->route('barang-keluar.create')->with('error', 'Data barang keluar gagal ditambahkan' . $th->getMessage());
         }
     }
 
